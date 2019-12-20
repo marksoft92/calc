@@ -1,3 +1,5 @@
+
+
 function getNumber(number) {
 
     const inputNumber = document.getElementById('input');
@@ -5,6 +7,7 @@ function getNumber(number) {
     switch (number) {
         case 1:
             inputNumber.value += '1';
+
             break;
 
         case 2:
@@ -51,39 +54,76 @@ function getOperand(operand) {
 
     const inputOperand = document.getElementById('input');
 
-    switch (operand) {
+    const wynik = inputOperand.value
 
-        case "*":
-            inputOperand.value += '*';
-            break;
 
-        case "/":
-            inputOperand.value += '/';
-            break;
 
-        case "-":
-            inputOperand.value += '-';
-            break;
 
-        case "+":
-            inputOperand.value += '+';
-            break;
-        case ".":
-            inputOperand.value += '.';
-            break;
-        default:
-            document.body.textContent = "Nieznana operacja";
-            break;
+
+    if (inputOperand.value[inputOperand.value.length - 1] != '.' && inputOperand.value[inputOperand.value.length - 1] != '*' && inputOperand.value[inputOperand.value.length - 1] != '-' && inputOperand.value[inputOperand.value.length - 1] != '+' && inputOperand.value[inputOperand.value.length - 1] != '/') {
+
+        if (inputOperand.value != '') {
+
+
+            switch (operand) {
+
+
+                case "*":
+
+                    inputOperand.value += '*';
+
+                    break;
+
+                case "/":
+
+
+                    inputOperand.value += '/';
+
+
+                    break;
+
+                case "-":
+
+                    inputOperand.value += '-';
+
+
+                    break;
+
+                case "+":
+
+
+                    inputOperand.value += '+';
+
+
+                    break;
+                case ".":
+
+                    inputOperand.value += '.';
+
+
+                    break;
+                case "=":
+                    if (wynik != '') {
+                        res = parseFloat((+eval(wynik)));
+
+                        document.getElementById('input').value = + res;
+                    }
+
+                    break;
+                default:
+                    document.body.textContent = "Nieznana operacja";
+                    break;
+            }
+        }
     }
+
 }
-
-
 
 
 
 function clearScreen() {
     document.getElementById('input').value = "";
-    document.getElementById('result').value = "";
+
 }
 
 function clearLast() {
@@ -100,10 +140,14 @@ function clearLast() {
     }
 
 }
-
+/*
 function getComputed() {
+
     const results = document.getElementById('input');
-    res = parseFloat((+eval(results.value)));
-    console.log(res)
-    document.getElementById('input').value = + res;
+    if (results.value != '') {
+        res = parseFloat((+eval(results.value)));
+
+        document.getElementById('input').value = + res;
+    }
 }
+*/

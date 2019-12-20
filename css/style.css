@@ -4,6 +4,13 @@ body {
     background-size: cover;
     margin-top: 30vh;
 }
+#input{
+    
+    text-align: right ;
+}
+#operand{
+    background-color: red;
+}
 .col-sm-3,.col-6,.col-12{
     padding-left: 0;
     padding-right: 0;}
