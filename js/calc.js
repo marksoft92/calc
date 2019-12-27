@@ -1,45 +1,54 @@
 
-
+let numbers = '';
+let inputValue = document.getElementById('input');
+flag = 0;
+flagDot = 0;
 function getNumber(number) {
 
-    const inputNumber = document.getElementById('input');
+    inputNumber = number;
+    numbers += inputNumber;
+
+    if (flag == 1) {
+        flag = 0
+        inputValue.value = '' + inputNumber;
+    }
+    else inputValue.value += inputNumber;
 
     switch (number) {
         case 1:
-            inputNumber.value += '1';
-
+            inputNumber += '1';
             break;
 
         case 2:
-            inputNumber.value += '2';
+            inputNumber += '2';
             break;
 
         case 3:
-            inputNumber.value += '3';
+            inputNumber += '3';
             break;
 
         case 4:
-            inputNumber.value += '4';
+            inputNumber += '4';
             break;
 
         case 5:
-            inputNumber.value += '5';
+            inputNumber += '5';
             break;
 
         case 6:
-            inputNumber.value += '6';
+            inputNumber += '6';
             break;
 
         case 7:
-            inputNumber.value += '7';
+            inputNumber += '7';
             break;
 
         case 8:
-            inputNumber.value += '8';
+            inputNumber += '8';
             break;
 
         case 9:
-            inputNumber.value += '9';
+            inputNumber += '9';
             break;
 
         case 0:
@@ -50,63 +59,59 @@ function getNumber(number) {
             break;
     }
 }
+
 function getOperand(operand) {
 
-    const inputOperand = document.getElementById('input');
+    let inputOperand = numbers;
 
-    const wynik = inputOperand.value
+    const result = inputOperand;
 
+    if (inputOperand[inputOperand.length - 1] != '.' && inputOperand[inputOperand.length - 1] != '*' && inputOperand[inputOperand.length - 1] != '-' && inputOperand[inputOperand.length - 1] != '+' && inputOperand[inputOperand.length - 1] != '/') {
 
-
-
-
-    if (inputOperand.value[inputOperand.value.length - 1] != '.' && inputOperand.value[inputOperand.value.length - 1] != '*' && inputOperand.value[inputOperand.value.length - 1] != '-' && inputOperand.value[inputOperand.value.length - 1] != '+' && inputOperand.value[inputOperand.value.length - 1] != '/') {
-
-        if (inputOperand.value != '') {
-
+        if (inputOperand != '') {
 
             switch (operand) {
 
-
                 case "*":
 
-                    inputOperand.value += '*';
-
+                    numbers += '*';
+                    flag = 1;
+                    flagDot = 0;
                     break;
 
                 case "/":
 
-
-                    inputOperand.value += '/';
-
-
+                    numbers += '/';
+                    flag = 1;
+                    flagDot = 0;
                     break;
 
                 case "-":
 
-                    inputOperand.value += '-';
-
-
+                    numbers += '-';
+                    flag = 1;
+                    flagDot = 0;
                     break;
 
                 case "+":
 
-
-                    inputOperand.value += '+';
-
-
+                    numbers += '+';
+                    flag = 1;
+                    flagDot = 0;
                     break;
                 case ".":
+                    if (flagDot == 0) {
+                        flagDot = 1;
+                        numbers += '.';
 
-                    inputOperand.value += '.';
-
-
+                        inputValue.value += '.'
+                    }
                     break;
                 case "=":
-                    if (wynik != '') {
-                        res = parseFloat((+eval(wynik)));
-
-                        document.getElementById('input').value = + res;
+                    flagDot = 1;
+                    if (result != '') {
+                        res = parseFloat((+eval(result)));
+                        inputValue.value = + res;
                     }
 
                     break;
@@ -119,35 +124,27 @@ function getOperand(operand) {
 
 }
 
-
-
 function clearScreen() {
-    document.getElementById('input').value = "";
-
+    inputValue.value = "";
+    numbers = "";
 }
 
 function clearLast() {
-    const Numbers = document.getElementById('input');
 
-    const num = Numbers.value;
-    let lastNumber = num.toString();
+
+    const numb = numbers;
+    let lastNumber = numb.toString();
 
     if (lastNumber.length > 0) {
         lastNumber = lastNumber.substring(0, lastNumber.length - 1);
-        Numbers.value = lastNumber;
-
-
+        numbers = lastNumber;
     }
 
-}
-/*
-function getComputed() {
-
-    const results = document.getElementById('input');
-    if (results.value != '') {
-        res = parseFloat((+eval(results.value)));
-
-        document.getElementById('input').value = + res;
+    const inputNumbers = inputValue.value;
+    let lastInputNumbers = inputNumbers.toString();
+    if (lastInputNumbers.length > 0) {
+        lastInputNumbers = lastInputNumbers.substring(0, lastInputNumbers.length - 1);
+        inputValue.value = lastInputNumbers;
     }
 }
-*/
+

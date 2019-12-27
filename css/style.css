@@ -1,6 +1,6 @@
 
 body {
-    background-image: url("x.jpg");
+    background-image: url("../x.jpg");
     background-size: cover;
     margin-top: 30vh;
 }
