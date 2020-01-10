@@ -5,7 +5,7 @@ body {
     margin-top: 30vh;
 }
 #input{
-    
+    display: none;
     text-align: right ;
 }
 #operand{

@@ -1,19 +1,32 @@
-
 let numbers = '';
+let yPow = '';
+let xPow = '';
 let inputValue = document.getElementById('input');
+let inputValuex = document.getElementById('inputx');
 flag = 0;
+click = '';
 flagDot = 0;
+flagPow = 0;
 function getNumber(number) {
 
     inputNumber = number;
     numbers += inputNumber;
+    if (flagPow == 1) {
+        yPow += inputNumber;
 
-    if (flag == 1) {
+        flagPow = 0
+
+    }
+    else if (flag == 1) {
         flag = 0
         inputValue.value = '' + inputNumber;
     }
     else inputValue.value += inputNumber;
+    if (click === 'clicksqrt') {
+        inputValuex.value += inputNumber + ')';
 
+    }
+    else inputValuex.value += inputNumber
     switch (number) {
         case 1:
             inputNumber += '1';
@@ -62,62 +75,92 @@ function getNumber(number) {
 
 function getOperand(operand) {
 
-    let inputOperand = numbers;
+    if (click === 'clicksqrt') {
 
-    const result = inputOperand;
+        if (yPow != '') {
+            let ySqrt = (1 / yPow)
+            let resultPow = Math.pow(xPow, ySqrt)
+            yPow = '';
+            ySqrt = '';
+            click = '';
+            numbers = numbers.replace(numbers.slice(numbers.indexOf(`"${operand}"`) - 1), resultPow);
+            console.log(numbers)
+        }
+    }
+    else if (click === 'clickpow') {
+
+        if (yPow != '') {
+            let resultPow = Math.pow(xPow, yPow)
+            yPow = '';
+            click = '';
+            numbers = numbers.replace(numbers.slice(numbers.indexOf(`"${operand}"`) - 1), resultPow);
+            console.log(resultPow);
+            console.log(operand)
+        }
+    }
+
+
+    let inputOperand = numbers;
+    let result = inputOperand;
+
 
     if (inputOperand[inputOperand.length - 1] != '.' && inputOperand[inputOperand.length - 1] != '*' && inputOperand[inputOperand.length - 1] != '-' && inputOperand[inputOperand.length - 1] != '+' && inputOperand[inputOperand.length - 1] != '/') {
 
         if (inputOperand != '') {
+            if (flagPow == 0) {
 
-            switch (operand) {
+                switch (operand) {
 
-                case "*":
+                    case "*":
+                        inputValuex.value += '*'
+                        numbers += '*';
+                        flag = 1;
+                        flagDot = 0;
 
-                    numbers += '*';
-                    flag = 1;
-                    flagDot = 0;
-                    break;
+                        break;
 
-                case "/":
+                    case "/":
+                        inputValuex.value += '/'
+                        numbers += '/';
+                        flag = 1;
+                        flagDot = 0;
+                        break;
 
-                    numbers += '/';
-                    flag = 1;
-                    flagDot = 0;
-                    break;
+                    case "-":
+                        inputValuex.value += '-'
+                        numbers += '-';
+                        flag = 1;
+                        flagDot = 0;
+                        break;
 
-                case "-":
+                    case "+":
+                        inputValuex.value += '+'
+                        numbers += '+';
+                        flag = 1;
+                        flagDot = 0;
+                        break;
+                    case ".":
+                        if (flagDot == 0) {
+                            flagDot = 1;
+                            numbers += '.';
+                            inputValuex.value += '.'
+                            inputValue.value += '.'
+                        }
+                        break;
+                    case "=":
 
-                    numbers += '-';
-                    flag = 1;
-                    flagDot = 0;
-                    break;
-
-                case "+":
-
-                    numbers += '+';
-                    flag = 1;
-                    flagDot = 0;
-                    break;
-                case ".":
-                    if (flagDot == 0) {
                         flagDot = 1;
-                        numbers += '.';
+                        if (result != '') {
+                            res = parseFloat((+eval(result)));
+                            inputValue.value = + res;
+                            inputValuex.value = + res;
+                        }
 
-                        inputValue.value += '.'
-                    }
-                    break;
-                case "=":
-                    flagDot = 1;
-                    if (result != '') {
-                        res = parseFloat((+eval(result)));
-                        inputValue.value = + res;
-                    }
-
-                    break;
-                default:
-                    document.body.textContent = "Nieznana operacja";
-                    break;
+                        break;
+                    default:
+                        document.body.textContent = "Nieznana operacja";
+                        break;
+                }
             }
         }
     }
@@ -127,6 +170,8 @@ function getOperand(operand) {
 function clearScreen() {
     inputValue.value = "";
     numbers = "";
+    yPow = '';
+    inputValuex.value = "";
 }
 
 function clearLast() {
@@ -146,5 +191,39 @@ function clearLast() {
         lastInputNumbers = lastInputNumbers.substring(0, lastInputNumbers.length - 1);
         inputValue.value = lastInputNumbers;
     }
+
+    const inputNumbersVal = inputValuex.value;
+    let lastInputNumbersVal = inputNumbersVal.toString();
+    if (lastInputNumbersVal.length > 0) {
+        lastInputNumbersVal = lastInputNumbersVal.substring(0, lastInputNumbersVal.length - 1);
+        inputValuex.value = lastInputNumbersVal;
+    }
 }
+
+function getPow() {
+    if (inputValuex.value != '') {
+        click = 'clickpow';
+        xPow = inputValue.value
+        if (inputValuex.value[inputValuex.value.length - 1] != '^' && inputValuex.value != '') {
+            inputValuex.value += '^';
+        }
+        flagPow = 1;
+        flag = 1;
+        flagDot = 0; console.log(numbers)
+    }
+}
+
+function getSqrt() {
+    if (inputValuex.value != '') {
+        click = 'clicksqrt';
+        xPow = inputValue.value
+        if (inputValuex.value[inputValuex.value.length - 1] != '√' && inputValuex.value != '') {
+            inputValuex.value += `^(1/${yPow}`;
+        }
+        flagPow = 1;
+        flag = 1;
+        flagDot = 0;
+    }
+}
+
 
