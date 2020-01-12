@@ -3,30 +3,33 @@ let yPow = '';
 let xPow = '';
 let inputValue = document.getElementById('input');
 let inputValuex = document.getElementById('inputx');
+currencyClick = '';
+flagCurrency = 1;
 flag = 0;
 click = '';
 flagDot = 0;
 flagPow = 0;
 function getNumber(number) {
-
+    flagCurrency = 1;
     inputNumber = number;
     numbers += inputNumber;
-    if (flagPow == 1) {
-        yPow += inputNumber;
+    if (flagCurrency == 1) {
+        if (flagPow == 1) {
+            yPow += inputNumber;
+            flagPow = 0
+            flagCurrency = 0;
+        }
+        else if (flag == 1) {
+            flag = 0
+            inputValue.value = '' + inputNumber;
+        }
+        else inputValue.value += inputNumber;
+        if (click === 'clicksqrt') {
+            inputValuex.value += inputNumber + ')';
+        }
 
-        flagPow = 0
-
+        else inputValuex.value += inputNumber
     }
-    else if (flag == 1) {
-        flag = 0
-        inputValue.value = '' + inputNumber;
-    }
-    else inputValue.value += inputNumber;
-    if (click === 'clicksqrt') {
-        inputValuex.value += inputNumber + ')';
-
-    }
-    else inputValuex.value += inputNumber
     switch (number) {
         case 1:
             inputNumber += '1';
@@ -72,11 +75,9 @@ function getNumber(number) {
             break;
     }
 }
-
 function getOperand(operand) {
 
     if (click === 'clicksqrt') {
-
         if (yPow != '') {
             let ySqrt = (1 / yPow)
             let resultPow = Math.pow(xPow, ySqrt)
@@ -84,55 +85,40 @@ function getOperand(operand) {
             ySqrt = '';
             click = '';
             numbers = numbers.replace(numbers.slice(numbers.indexOf(`"${operand}"`) - 1), resultPow);
-            console.log(numbers)
         }
     }
     else if (click === 'clickpow') {
-
         if (yPow != '') {
             let resultPow = Math.pow(xPow, yPow)
             yPow = '';
             click = '';
             numbers = numbers.replace(numbers.slice(numbers.indexOf(`"${operand}"`) - 1), resultPow);
-            console.log(resultPow);
-            console.log(operand)
         }
     }
-
-
     let inputOperand = numbers;
     let result = inputOperand;
-
-
     if (inputOperand[inputOperand.length - 1] != '.' && inputOperand[inputOperand.length - 1] != '*' && inputOperand[inputOperand.length - 1] != '-' && inputOperand[inputOperand.length - 1] != '+' && inputOperand[inputOperand.length - 1] != '/') {
-
         if (inputOperand != '') {
             if (flagPow == 0) {
-
                 switch (operand) {
-
                     case "*":
                         inputValuex.value += '*'
                         numbers += '*';
                         flag = 1;
                         flagDot = 0;
-
                         break;
-
                     case "/":
                         inputValuex.value += '/'
                         numbers += '/';
                         flag = 1;
                         flagDot = 0;
                         break;
-
                     case "-":
                         inputValuex.value += '-'
                         numbers += '-';
                         flag = 1;
                         flagDot = 0;
                         break;
-
                     case "+":
                         inputValuex.value += '+'
                         numbers += '+';
@@ -140,22 +126,25 @@ function getOperand(operand) {
                         flagDot = 0;
                         break;
                     case ".":
-                        if (flagDot == 0) {
-                            flagDot = 1;
-                            numbers += '.';
-                            inputValuex.value += '.'
-                            inputValue.value += '.'
+                        if (flagCurrency == 1) {
+                            if (flagDot == 0) {
+                                flagDot = 1;
+                                numbers += '.';
+                                inputValuex.value += '.';
+                                inputValue.value += '.';
+                                flagCurrency = 0;
+                            }
                         }
                         break;
                     case "=":
-
                         flagDot = 1;
                         if (result != '') {
                             res = parseFloat((+eval(result)));
+                            const resu = (currencyClick === 'click' ? res.toFixed(2) : res)
                             inputValue.value = + res;
-                            inputValuex.value = + res;
+                            inputValuex.value = + resu + (currencyClick === 'click' ? 'PLN' : '');
+                            currencyClick = '';
                         }
-
                         break;
                     default:
                         document.body.textContent = "Nieznana operacja";
@@ -166,64 +155,86 @@ function getOperand(operand) {
     }
 
 }
-
 function clearScreen() {
     inputValue.value = "";
     numbers = "";
     yPow = '';
+    click = '';
+    flagCurrency = 1;
     inputValuex.value = "";
 }
-
 function clearLast() {
-
-
     const numb = numbers;
     let lastNumber = numb.toString();
-
     if (lastNumber.length > 0) {
         lastNumber = lastNumber.substring(0, lastNumber.length - 1);
         numbers = lastNumber;
     }
-
     const inputNumbers = inputValue.value;
     let lastInputNumbers = inputNumbers.toString();
     if (lastInputNumbers.length > 0) {
         lastInputNumbers = lastInputNumbers.substring(0, lastInputNumbers.length - 1);
         inputValue.value = lastInputNumbers;
     }
-
-    const inputNumbersVal = inputValuex.value;
-    let lastInputNumbersVal = inputNumbersVal.toString();
-    if (lastInputNumbersVal.length > 0) {
-        lastInputNumbersVal = lastInputNumbersVal.substring(0, lastInputNumbersVal.length - 1);
-        inputValuex.value = lastInputNumbersVal;
-    }
 }
-
 function getPow() {
-    if (inputValuex.value != '') {
-        click = 'clickpow';
-        xPow = inputValue.value
-        if (inputValuex.value[inputValuex.value.length - 1] != '^' && inputValuex.value != '') {
-            inputValuex.value += '^';
+    if (flagCurrency == 1) {
+        if (inputValuex.value != '') {
+            click = 'clickpow';
+            xPow = inputValue.value
+            if (inputValuex.value[inputValuex.value.length - 1] != '^' && inputValuex.value != '') {
+                inputValuex.value += '^';
+            }
+            flagPow = 1;
+            flag = 1;
+            flagDot = 0;
+            flagCurrency = 0;
         }
-        flagPow = 1;
-        flag = 1;
-        flagDot = 0; console.log(numbers)
     }
 }
-
 function getSqrt() {
-    if (inputValuex.value != '') {
-        click = 'clicksqrt';
-        xPow = inputValue.value
-        if (inputValuex.value[inputValuex.value.length - 1] != '√' && inputValuex.value != '') {
-            inputValuex.value += `^(1/${yPow}`;
+    if (yPow == '') {
+        if (flagCurrency == 1) {
+            if (inputValuex.value != '') {
+                click = 'clicksqrt';
+                xPow = inputValue.value
+                if (inputValuex.value[inputValuex.value.length - 1] != '√' && inputValuex.value != '') {
+                    inputValuex.value += `^(1/${yPow}`;
+                }
+                flagPow = 1;
+                flag = 1;
+                flagDot = 0;
+                flagCurrency = 0;
+            }
         }
-        flagPow = 1;
-        flag = 1;
-        flagDot = 0;
     }
 }
+fetch("http://api.nbp.pl/api/exchangerates/tables/a/last/?format=json")
+    .then(rates => rates.json())
+    .then(rates => {
+        rate = rates[0].rates;
+        rate.forEach(rates => {
+            const el = document.createElement("input");
+            el.setAttribute("class", `${rates.code}`);
+            el.type = "button";
+            el.value = `${rates.code}`;
+            el.setAttribute("onclick", `getCurrency(${rates.mid},"${rates.code}")`);
+            const div = document.querySelector(".currency");
+            div.appendChild(el);
+        })
+    })
+function getClassActive() {
+    const currency = document.querySelector('.currency')
+    currency.classList.toggle('active')
+}
+function getCurrency(value, code) {
+    if (flagCurrency == 1) {
+        if (inputValuex.value != '') {
+            inputValuex.value += `(${code})`;
+            numbers += `*${value}`;
+            currencyClick = 'click';
+            flagCurrency = 0;
+        }
 
-
+    }
+}

@@ -1,11 +1,12 @@
 
 body {
     background-image: url("../x.jpg");
-    background-size: cover;
-    margin-top: 30vh;
+   
+  
+    margin-top: 5vh;
 }
 #input{
-    display: none;
+    opacity: 0;
     text-align: right ;
 }
 #operand{
@@ -19,12 +20,13 @@ body {
 
 .container
 {
-    width: 20% ;
-   
-    margin: 0 auto;
+    width: 30% ;
+   position: absolute;
+    margin: 0;
     background-color: blue;
     border: blue 10px solid;
     border-radius:10px ;
+    top: 0;
 }
 
 input{
@@ -33,6 +35,19 @@ input{
     font-size: 30px;
     font-weight: 900;
     background-color: whitesmoke;
+}
+.active {
+    display: none !important;
+ 
+}
+.currency{
+    display: inline-block;
+    text-align: center;
+   left: 40%;
+}
+.currency > input {
+    width: 30%;
+   
 }
 @media (max-width: 600px) {
 .container{
