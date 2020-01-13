@@ -1,4 +1,5 @@
 let numbers = '';
+let operands = '';
 let yPow = '';
 let xPow = '';
 let inputValue = document.getElementById('input');
@@ -16,6 +17,7 @@ function getNumber(number) {
     if (flagCurrency == 1) {
         if (flagPow == 1) {
             yPow += inputNumber;
+            console.log(yPow)
             flagPow = 0
             flagCurrency = 0;
         }
@@ -77,22 +79,34 @@ function getNumber(number) {
 }
 function getOperand(operand) {
 
+
+
     if (click === 'clicksqrt') {
+        operands += operand;
+
         if (yPow != '') {
+            let lastOperandIndex = operands.length - 2;
+            let operandValue = operands.charAt(lastOperandIndex);
             let ySqrt = (1 / yPow)
+            console.log('x', ySqrt)
             let resultPow = Math.pow(xPow, ySqrt)
+
             yPow = '';
             ySqrt = '';
             click = '';
-            numbers = numbers.replace(numbers.slice(numbers.indexOf(`"${operand}"`) - 1), resultPow);
+            numbers = numbers.replace(numbers.slice(numbers.lastIndexOf(`${operandValue}`) + 1), resultPow);
         }
     }
     else if (click === 'clickpow') {
+        operands += operand;
         if (yPow != '') {
+            let lastOperandIndex = operands.length - 2;
+            let operandValue = operands.charAt(lastOperandIndex);
             let resultPow = Math.pow(xPow, yPow)
+
             yPow = '';
             click = '';
-            numbers = numbers.replace(numbers.slice(numbers.indexOf(`"${operand}"`) - 1), resultPow);
+            numbers = numbers.replace(numbers.slice(numbers.indexOf(`${operandValue}`) + 1), resultPow);
         }
     }
     let inputOperand = numbers;
