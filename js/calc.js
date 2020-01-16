@@ -254,12 +254,3 @@ function getCurrency(value, code) {
 
     }
 }
-let arr = { a: 1, b: 2, c: 3 }
-
-
-
-for (let prop in arr) {
-
-    const b = prop + "=" + arr[prop]
-    console.log(b)
-}
