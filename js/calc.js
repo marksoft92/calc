@@ -5,6 +5,7 @@ let xPow = '';
 let inputValue = document.getElementById('input');
 let inputValuex = document.getElementById('inputx');
 currencyClick = '';
+dotOperand = '';
 flagCurrency = 1;
 flag = 0;
 click = '';
@@ -17,8 +18,6 @@ function getNumber(number) {
     if (flagCurrency == 1) {
         if (flagPow == 1) {
             yPow += inputNumber;
-            console.log(yPow)
-            flagPow = 0
             flagCurrency = 0;
         }
         else if (flag == 1) {
@@ -27,7 +26,7 @@ function getNumber(number) {
         }
         else inputValue.value += inputNumber;
         if (click === 'clicksqrt') {
-            inputValuex.value += inputNumber + ')';
+            inputValuex.value += inputNumber;
         }
 
         else inputValuex.value += inputNumber
@@ -78,8 +77,8 @@ function getNumber(number) {
     }
 }
 function getOperand(operand) {
-
-
+    flagPow = 0
+    dotOperand = operand;
 
     if (click === 'clicksqrt') {
         operands += operand;
@@ -94,7 +93,8 @@ function getOperand(operand) {
             yPow = '';
             ySqrt = '';
             click = '';
-            numbers = numbers.replace(numbers.slice(numbers.lastIndexOf(`${operandValue}`) + 1), resultPow);
+            numbers = numbers.replace(numbers.slice(numbers.lastIndexOf(`${operandValue}`) + 1), resultPow)
+            inputValuex.value += ")";
         }
     }
     else if (click === 'clickpow') {
@@ -112,7 +112,7 @@ function getOperand(operand) {
     let inputOperand = numbers;
     let result = inputOperand;
     if (inputOperand[inputOperand.length - 1] != '.' && inputOperand[inputOperand.length - 1] != '*' && inputOperand[inputOperand.length - 1] != '-' && inputOperand[inputOperand.length - 1] != '+' && inputOperand[inputOperand.length - 1] != '/') {
-        if (inputOperand != '') {
+        if (inputOperand != '' && inputValuex.value[inputValuex.value.length - 1] != "^") {
             if (flagPow == 0) {
                 switch (operand) {
                     case "*":
@@ -244,11 +244,22 @@ function getClassActive() {
 function getCurrency(value, code) {
     if (flagCurrency == 1) {
         if (inputValuex.value != '') {
-            inputValuex.value += `(${code})`;
-            numbers += `*${value}`;
-            currencyClick = 'click';
-            flagCurrency = 0;
+            if (inputValuex.value[inputValuex.value.length - 1] != dotOperand) {
+                inputValuex.value += `(${code})`;
+                numbers += `*${value}`;
+                currencyClick = 'click';
+                flagCurrency = 0;
+            }
         }
 
     }
+}
+let arr = { a: 1, b: 2, c: 3 }
+
+
+
+for (let prop in arr) {
+
+    const b = prop + "=" + arr[prop]
+    console.log(b)
 }
