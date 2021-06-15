@@ -1,3 +1,3 @@
 # Calculator JavaScript
 ## Calculator project based on javascript vanilla with lots of functionality
-## Demo:
+## Demo: https://marksoft92.github.io/calc/
